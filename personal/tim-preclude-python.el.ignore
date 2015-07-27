@@ -1,0 +1,29 @@
+;;; ===
+
+
+(message "===> Tim.WU: loading %s" load-file-name)
+
+(prelude-require-package 'anaconda-mode)
+
+(when (boundp 'company-backends)
+  (prelude-require-package 'company-anaconda)
+  (add-to-list 'company-backends 'company-anaconda))
+
+(add-hook 'python-mode-hook (lambda ()
+                              (progn
+				(message "===> Tim.WU ignore python-mode-hook")
+				(turn-on-pdbtrack))))
+
+(defun tim-disable-anaconda-from-company ()
+  "disable anaconda from company such that ipdb works"
+   (interactive)
+   (progn
+   (setq company-backends (delq 'company-anaconda company-backends))
+   (message "disable anaconda. company-backends: %s" company-backends)))
+
+(tim-disable-anaconda-from-company)
+(global-set-key (kbd "C-c M-a") 'tim-disable-anaconda-from-company)
+
+(provide 'tim-preclude-python)
+
+;;; tim-preclude-python ends here

@@ -213,6 +213,10 @@ The body of the advice is in BODY."
 (setq ispell-program-name "aspell" ; use aspell instead of ispell
       ispell-extra-args '("--sug-mode=ultra"))
 
+;; Tim.WU 
+;; use American English as ispell default dictionary
+(ispell-change-dictionary "american" t)
+
 (defun prelude-enable-flyspell ()
   "Enable command `flyspell-mode' if `prelude-flyspell' is not nil."
   (when (and prelude-flyspell (executable-find ispell-program-name))

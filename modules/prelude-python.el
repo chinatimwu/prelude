@@ -86,6 +86,7 @@
 
 (defun prelude-python-mode-defaults ()
   "Defaults for Python programming."
+  (message "===> Tim.WU: prelude-python-mode-defaults")
   (subword-mode +1)
   (anaconda-mode 1)
   (eldoc-mode 1)
