@@ -11,6 +11,8 @@
 
 (message "===> Tim.WU: loading %s" load-file-name)
 
+(setq debug-on-error t)
+
 ;;; ---- C-j to easily switch between the two modes:
 
 (require 'shell)
@@ -58,29 +60,31 @@
     (comint-send-input)))
 (global-set-key (kbd "C-c M-i") 'python-interactive)
 
-;; set `M-x py-shell RET` to ipython
-(custom-set-variables
-    '(py-force-py-shell-name-p t)
-    '(py-shell-name "ipython"))
-
+;;; set `M-x py-shell RET` to ipython
+;;(custom-set-variables
+;;    '(py-force-py-shell-name-p t)
+;;    '(py-shell-name "ipython"))  ;; comment it because it will also be set in custom.el by M-x customize-variable
 ;;;
+
 
 
 (define-key python-mode-map (kbd "C-M-y") 'complete-at-point)
 
 ;;; ---- isend-mode
 (prelude-require-package 'isend-mode)
-(require 'isend-mode)
+(require 'isend-mode) ;; `M-x isend-associate RET BUFFER_NAME` then `C-RET` to send sentence to ipython
 (setq isend-skip-empty-lines nil)
 (setq isend-strip-empty-lines nil)
 (setq isend-delete-indentation t)
-(setq isend-end-with-empty-line t)  ;; `M-x isend-associate RET BUFFER_NAME` then `C-RET` to send sentence to ipython
+(setq isend-end-with-empty-line t) 
+;;(add-hook 'isend-mode-hook 'isend-default-ipython-setup)
 
 
 ;;; ---- enable turn-on-pdbtrack since anaconda blocks it by default.
 (add-hook 'python-mode-hook (lambda ()
                               (progn
                                 (message "==> Tim.WU: python-mode-hook: enable turn-on-pdbtrack")
+				(linum-mode 1)  ;; line number
                                 (turn-on-pdbtrack))))
 
 (provide 'tim-python-mode)
@@ -100,14 +104,14 @@
 
 ;;; ---- auto-completion  -- doesn't work
 ;;(prelude-require-package 'shell-command)
-;;(require 'shell-command) 
+;;(require 'shell-command)
 ;;(shell-command-completion-mode)
 
 ;;; ---- bash-completion  -- doesn't work
 (prelude-require-package 'bash-completion)
 ;;(require 'bash-completion)
 ;;;(bash-completion-setup)
-;;(autoload 'bash-completion-dynamic-complete 
+;;(autoload 'bash-completion-dynamic-complete
 ;;  "bash-completion"
 ;;  "BASH completion hook")
 ;;(add-hook 'shell-dynamic-complete-functions
@@ -119,4 +123,3 @@
 ;;      py-pdbtrack-stack-entry-regexp
 ;;      (concat "^&amp class="comment">;amp;amp;gt; \\(.*\\)(\\([0-9]+\\))"
 ;;	      "\\([?a-zA-Z0-9_]+\\|&amp class="comment">;amp;amp;lt;genexpr&amp;amp;amp;gt;\\)()"))
-
